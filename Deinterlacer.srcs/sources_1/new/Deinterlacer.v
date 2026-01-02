@@ -7,27 +7,30 @@ module Deinterlacer_bob #(
     input  wire                     clk,
     input  wire                     rst_n,
 
+    input  wire [11:0]              cfg_line_width,  // Runtime configurable buffer depth
+    input  wire                     cfg_bypass,
+
     // VPU Input Stream
-    input  wire                     vpu_in_valid,
-    output wire                     vpu_in_ready,
-    input  wire [PIXEL_WIDTH-1:0]   vpu_in_pixel,
-    input  wire                     vpu_in_line_start,
-    input  wire                     vpu_in_frame_start,
-    input  wire                     vpu_in_interlaced,
-    input  wire                     vpu_in_field_id,
-    input  wire [11:0]              vpu_in_h_active,
-    input  wire [11:0]              vpu_in_v_active,
+    input  wire                     VPU_in_valid,
+    output wire                     VPU_in_ready,
+    input  wire [PIXEL_WIDTH-1:0]   VPU_in_pixel,
+    input  wire                     VPU_in_line_start,
+    input  wire                     VPU_in_frame_start,
+    input  wire                     VPU_in_interlaced,
+    input  wire                     VPU_in_field_id,
+    input  wire [11:0]              VPU_in_h_active,
+    input  wire [11:0]              VPU_in_v_active,
 
     // VPU Output Stream
-    output reg                      vpu_out_valid,
-    input  wire                     vpu_out_ready,
-    output reg [PIXEL_WIDTH-1:0]    vpu_out_pixel,
-    output reg                      vpu_out_line_start,
-    output reg                      vpu_out_frame_start,
-    output reg                      vpu_out_interlaced,
-    output reg                      vpu_out_field_id,
-    output reg [11:0]               vpu_out_h_active,
-    output reg [11:0]               vpu_out_v_active
+    output reg                      VPU_out_valid,
+    input  wire                     VPU_out_ready,
+    output reg [PIXEL_WIDTH-1:0]    VPU_out_pixel,
+    output reg                      VPU_out_line_start,
+    output reg                      VPU_out_frame_start,
+    output reg                      VPU_out_interlaced,
+    output reg                      VPU_out_field_id,
+    output reg [11:0]               VPU_out_h_active,
+    output reg [11:0]               VPU_out_v_active
 );
 
     // Line buffer
@@ -48,20 +51,22 @@ module Deinterlacer_bob #(
     reg [PIXEL_WIDTH-1:0] latched_pixel;
 
     // Handshake signals
-    wire handshake_in  = vpu_in_valid && vpu_in_ready;
-    wire handshake_out = vpu_out_valid && vpu_out_ready;
+    wire handshake_in  = VPU_in_valid && VPU_in_ready;
+    wire handshake_out = VPU_out_valid && VPU_out_ready;
+    wire passthrough = cfg_bypass || !VPU_in_interlaced;
+    wire frame_start = VPU_in_frame_start && !VPU_in_field_id;
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             state               <= IDLE;
-            vpu_out_valid       <= 1'b0;
-            vpu_out_pixel       <= 0;
-            vpu_out_line_start  <= 1'b0;
-            vpu_out_frame_start <= 1'b0;
-            vpu_out_interlaced  <= 1'b0;
-            vpu_out_field_id    <= 1'b0;
-            vpu_out_h_active    <= 0;
-            vpu_out_v_active    <= 0;
+            VPU_out_valid       <= 1'b0;
+            VPU_out_pixel       <= 0;
+            VPU_out_line_start  <= 1'b0;
+            VPU_out_frame_start <= 1'b0;
+            VPU_out_interlaced  <= 1'b0;
+            VPU_out_field_id    <= 1'b0;
+            VPU_out_h_active    <= 0;
+            VPU_out_v_active    <= 0;
             line_addr           <= 0;
             line_length         <= 0;
             latched_frame_start <= 1'b0;
@@ -69,93 +74,96 @@ module Deinterlacer_bob #(
         end else begin
         
             // Progressive passthrough (no deinterlacing needed)
-            if (!vpu_in_interlaced) begin
-                vpu_out_valid       <= vpu_in_valid;
-                vpu_out_pixel       <= vpu_in_pixel;
-                vpu_out_line_start  <= vpu_in_line_start;
-                vpu_out_frame_start <= vpu_in_frame_start;
-                vpu_out_interlaced  <= 1'b0;
-                vpu_out_field_id    <= 1'b0;
-                vpu_out_h_active    <= vpu_in_h_active;
-                vpu_out_v_active    <= vpu_in_v_active;
-                state               <= IDLE;
-                
+            if (passthrough) begin
+                if (VPU_in_valid && VPU_in_ready) begin
+                    VPU_out_valid       <= VPU_in_valid;
+                    VPU_out_pixel       <= VPU_in_pixel;
+                    VPU_out_line_start  <= VPU_in_line_start;
+                    VPU_out_frame_start <= VPU_in_frame_start;
+                    VPU_out_interlaced  <= cfg_bypass ? VPU_in_interlaced : 1'b0;
+                    VPU_out_field_id    <= cfg_bypass ? VPU_in_field_id : 1'b0;
+                    VPU_out_h_active    <= VPU_in_h_active;
+                    VPU_out_v_active    <= VPU_in_v_active;
+                end
+                state     <= IDLE;
+                line_addr <= 0;
             end else begin
                 // Interlaced mode - bob deinterlacing
-                vpu_out_interlaced <= 1'b0;
-                vpu_out_field_id   <= 1'b0;
-                vpu_out_h_active   <= vpu_in_h_active;
-                vpu_out_v_active   <= vpu_in_v_active << 1; // Double vertical resolution
+                VPU_out_interlaced <= 1'b0;
+                VPU_out_field_id   <= 1'b0;
+                VPU_out_h_active   <= VPU_in_h_active;
+                VPU_out_v_active   <= VPU_in_v_active << 1; // Double vertical resolution
 
                 case (state)
                     IDLE: begin
-                        vpu_out_valid <= 1'b0;
+                        VPU_out_valid <= 1'b0;
                         line_addr <= 0;
                         
                         // Wait for line_start to begin
-                        if (vpu_in_valid && vpu_in_line_start) begin
+                        if (VPU_in_valid && VPU_in_line_start) begin
                             state <= FIRST_PASS;
-                            latched_frame_start <= vpu_in_frame_start && !vpu_in_field_id;
+                            latched_frame_start <= frame_start;
                             latched_line_start  <= 1'b1;
                             
-                            line_ram[0] <= vpu_in_pixel;
-                            latched_pixel <= vpu_in_pixel;
+                            line_ram[0] <= VPU_in_pixel;
+                            latched_pixel <= VPU_in_pixel;
                             line_addr <= 1;
                         end
                     end
 
                     FIRST_PASS: begin
-                        if (!vpu_out_valid || handshake_out) begin
+                        if (!VPU_out_valid || handshake_out) begin
                             if (latched_line_start) begin
-                                vpu_out_valid       <= 1'b1;
-                                vpu_out_pixel       <= latched_pixel;
-                                vpu_out_line_start  <= 1'b1;
-                                vpu_out_frame_start <= latched_frame_start;
+                                VPU_out_valid       <= 1'b1;
+                                VPU_out_pixel       <= latched_pixel;
+                                VPU_out_line_start  <= 1'b1;
+                                VPU_out_frame_start <= latched_frame_start;
                                 latched_line_start  <= 1'b0;
                                 latched_frame_start <= 1'b0;
 
-                            end else if (!vpu_in_valid && line_addr > 0) begin
+                            end else if (!VPU_in_valid && line_addr > 0) begin
                                 // Input stopped - line complete, switch to replay
-                                vpu_out_valid <= 1'b0;
+                                VPU_out_valid <= 1'b0;
                                 line_length   <= line_addr;
                                 line_addr     <= 0;
                                 state         <= SECOND_PASS;
 
                             end else if (handshake_in) begin
                                 // Store pixel to buffer AND output it
-                                line_ram[line_addr] <= vpu_in_pixel;
-                                line_addr           <= line_addr + 1;
-
-                                vpu_out_valid       <= 1'b1;
-                                vpu_out_pixel       <= vpu_in_pixel;
-                                vpu_out_line_start  <= latched_line_start;
-                                vpu_out_frame_start <= latched_frame_start;
+                                if (line_addr < cfg_line_width) begin
+                                    line_ram[line_addr] <= VPU_in_pixel;
+                                    line_addr           <= line_addr + 1;
+                                end
+                                
+                                VPU_out_valid       <= 1'b1;
+                                VPU_out_pixel       <= VPU_in_pixel;
+                                VPU_out_line_start  <= latched_line_start;
+                                VPU_out_frame_start <= latched_frame_start;
                                 
                                 latched_line_start  <= 1'b0;
                                 latched_frame_start <= 1'b0;
                             end else begin
-                                vpu_out_valid <= 1'b0;
+                                VPU_out_valid <= 1'b0;
                             end
                         end
                     end
 
                     SECOND_PASS: begin
-                        if (!vpu_out_valid || handshake_out) begin
+                        if (!VPU_out_valid || handshake_out) begin
                             if (line_addr < line_length) begin
-                                vpu_out_valid       <= 1'b1;
-                                vpu_out_pixel       <= line_ram[line_addr];
-                                vpu_out_line_start  <= (line_addr == 0);
-                                vpu_out_frame_start <= 1'b0;
+                                VPU_out_valid       <= 1'b1;
+                                VPU_out_pixel       <= line_ram[line_addr];
+                                VPU_out_line_start  <= (line_addr == 0);
+                                VPU_out_frame_start <= 1'b0;
                                 line_addr           <= line_addr + 1;
                             end else begin
                                 // Replay complete
-                                vpu_out_valid <= 1'b0;
+                                VPU_out_valid <= 1'b0;
                                 line_addr     <= 0;
                                 state         <= IDLE;
                             end
                         end
                     end
-
                     default: state <= IDLE;
                 endcase
             end
@@ -163,8 +171,6 @@ module Deinterlacer_bob #(
     end
 
     // Ready signal logic
-    assign vpu_in_ready = vpu_in_interlaced ? 
-                            (state == FIRST_PASS) && (!vpu_out_valid || handshake_out) && !latched_line_start : 
-                            (!vpu_out_valid || handshake_out);
+    assign VPU_in_ready = passthrough ? (!VPU_out_valid || handshake_out) : (state == FIRST_PASS) && (!VPU_out_valid || handshake_out) && !latched_line_start;                            ;
 
 endmodule
