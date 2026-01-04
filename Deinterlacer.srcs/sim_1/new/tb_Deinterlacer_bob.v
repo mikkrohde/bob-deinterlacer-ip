@@ -17,26 +17,26 @@ module tb_Deinterlacer_bob();
     reg rst_n;
 
     // VPU Input signals
-    reg                   vpu_in_valid;
-    wire                  vpu_in_ready;  // Now a wire from DUT
-    reg [PIXEL_WIDTH-1:0] vpu_in_pixel;
-    reg                   vpu_in_line_start;
-    reg                   vpu_in_frame_start;
-    reg                   vpu_in_interlaced;
-    reg                   vpu_in_field_id;
-    reg [11:0]            vpu_in_h_active;
-    reg [11:0]            vpu_in_v_active;
+    reg                   VPU_in_valid;
+    wire                  VPU_in_ready;  // Now a wire from DUT
+    reg [PIXEL_WIDTH-1:0] VPU_in_pixel;
+    reg                   VPU_in_line_start;
+    reg                   VPU_in_frame_start;
+    reg                   VPU_in_interlaced;
+    reg                   VPU_in_field_id;
+    reg [11:0]            VPU_in_h_active;
+    reg [11:0]            VPU_in_v_active;
 
     // VPU Output signals
-    wire                   vpu_out_valid;
-    reg                    vpu_out_ready;  // Testbench controls this
-    wire [PIXEL_WIDTH-1:0] vpu_out_pixel;
-    wire                   vpu_out_line_start;
-    wire                   vpu_out_frame_start;
-    wire                   vpu_out_interlaced;
-    wire                   vpu_out_field_id;
-    wire [11:0]            vpu_out_h_active;
-    wire [11:0]            vpu_out_v_active;
+    wire                   VPU_out_valid;
+    reg                    VPU_out_ready;  // Testbench controls this
+    wire [PIXEL_WIDTH-1:0] VPU_out_pixel;
+    wire                   VPU_out_line_start;
+    wire                   VPU_out_frame_start;
+    wire                   VPU_out_interlaced;
+    wire                   VPU_out_field_id;
+    wire [11:0]            VPU_out_h_active;
+    wire [11:0]            VPU_out_v_active;
 
     // Test tracking
     integer pixel_count;
@@ -50,24 +50,26 @@ module tb_Deinterlacer_bob();
     ) dut (
         .clk(clk),
         .rst_n(rst_n),
-        .vpu_in_valid(vpu_in_valid),
-        .vpu_in_ready(vpu_in_ready),
-        .vpu_in_pixel(vpu_in_pixel),
-        .vpu_in_line_start(vpu_in_line_start),
-        .vpu_in_frame_start(vpu_in_frame_start),
-        .vpu_in_interlaced(vpu_in_interlaced),
-        .vpu_in_field_id(vpu_in_field_id),
-        .vpu_in_h_active(vpu_in_h_active),
-        .vpu_in_v_active(vpu_in_v_active),
-        .vpu_out_valid(vpu_out_valid),
-        .vpu_out_ready(vpu_out_ready),
-        .vpu_out_pixel(vpu_out_pixel),
-        .vpu_out_line_start(vpu_out_line_start),
-        .vpu_out_frame_start(vpu_out_frame_start),
-        .vpu_out_interlaced(vpu_out_interlaced),
-        .vpu_out_field_id(vpu_out_field_id),
-        .vpu_out_h_active(vpu_out_h_active),
-        .vpu_out_v_active(vpu_out_v_active)
+        .cfg_line_width(12'd1920),
+        .cfg_bypass(1'b0),
+        .VPU_in_valid(VPU_in_valid),
+        .VPU_in_ready(VPU_in_ready),
+        .VPU_in_pixel(VPU_in_pixel),
+        .VPU_in_line_start(VPU_in_line_start),
+        .VPU_in_frame_start(VPU_in_frame_start),
+        .VPU_in_interlaced(VPU_in_interlaced),
+        .VPU_in_field_id(VPU_in_field_id),
+        .VPU_in_h_active(VPU_in_h_active),
+        .VPU_in_v_active(VPU_in_v_active),
+        .VPU_out_valid(VPU_out_valid),
+        .VPU_out_ready(VPU_out_ready),
+        .VPU_out_pixel(VPU_out_pixel),
+        .VPU_out_line_start(VPU_out_line_start),
+        .VPU_out_frame_start(VPU_out_frame_start),
+        .VPU_out_interlaced(VPU_out_interlaced),
+        .VPU_out_field_id(VPU_out_field_id),
+        .VPU_out_h_active(VPU_out_h_active),
+        .VPU_out_v_active(VPU_out_v_active)
     );
 
     // Clock generation
@@ -78,16 +80,16 @@ module tb_Deinterlacer_bob();
 
     // Output monitoring
     always @(posedge clk) begin
-        if (vpu_out_valid && vpu_out_ready) begin
+        if (VPU_out_valid && VPU_out_ready) begin
             pixel_count = pixel_count + 1;
         end
 
-        if (vpu_out_line_start && vpu_out_valid && vpu_out_ready) begin
+        if (VPU_out_line_start && VPU_out_valid && VPU_out_ready) begin
             line_count = line_count + 1;
             $display("[%0t] Output Line %0d started", $time, line_count);
         end
 
-        if (vpu_out_frame_start && vpu_out_valid && vpu_out_ready) begin
+        if (VPU_out_frame_start && VPU_out_valid && VPU_out_ready) begin
             $display("[%0t] ===== OUTPUT FRAME START =====", $time);
         end
     end
@@ -96,15 +98,15 @@ module tb_Deinterlacer_bob();
     task reset_dut;
         begin
             rst_n = 0;
-            vpu_in_valid = 0;
-            vpu_in_pixel = 0;
-            vpu_in_line_start = 0;
-            vpu_in_frame_start = 0;
-            vpu_in_interlaced = 0;
-            vpu_in_field_id = 0;
-            vpu_in_h_active = 0;
-            vpu_in_v_active = 0;
-            vpu_out_ready = 1;  // Always ready to accept output
+            VPU_in_valid = 0;
+            VPU_in_pixel = 0;
+            VPU_in_line_start = 0;
+            VPU_in_frame_start = 0;
+            VPU_in_interlaced = 0;
+            VPU_in_field_id = 0;
+            VPU_in_h_active = 0;
+            VPU_in_v_active = 0;
+            VPU_out_ready = 1;  // Always ready to accept output
             pixel_count = 0;
             line_count = 0;
             errors = 0;
@@ -123,30 +125,30 @@ module tb_Deinterlacer_bob();
         integer i;
         begin
             // Send first pixel with line_start
-            vpu_in_line_start = line_start_flag;
-            vpu_in_frame_start = frame_start_flag;
-            vpu_in_valid = 1;
-            vpu_in_pixel = {line_num[7:0], 16'd0};
+            VPU_in_line_start = line_start_flag;
+            VPU_in_frame_start = frame_start_flag;
+            VPU_in_valid = 1;
+            VPU_in_pixel = {line_num[7:0], 16'd0};
 
             // Wait for handshake
             @(posedge clk);
-            while (!vpu_in_ready) @(posedge clk);
+            while (!VPU_in_ready) @(posedge clk);
 
             // Send remaining pixels
             for (i = 1; i < h_active; i = i + 1) begin
-                vpu_in_line_start = 0;
-                vpu_in_frame_start = 0;
-                vpu_in_valid = 1;
-                vpu_in_pixel = {line_num[7:0], i[15:0]};
+                VPU_in_line_start = 0;
+                VPU_in_frame_start = 0;
+                VPU_in_valid = 1;
+                VPU_in_pixel = {line_num[7:0], i[15:0]};
 
                 @(posedge clk);
-                while (!vpu_in_ready) @(posedge clk);
+                while (!VPU_in_ready) @(posedge clk);
             end
 
             // End of line
-            vpu_in_valid = 0;
-            vpu_in_line_start = 0;
-            vpu_in_frame_start = 0;
+            VPU_in_valid = 0;
+            VPU_in_line_start = 0;
+            VPU_in_frame_start = 0;
 
             // Wait for second pass to complete
             repeat(h_active + 10) @(posedge clk);
@@ -166,10 +168,10 @@ module tb_Deinterlacer_bob();
         //---------------------------------------------------------------------
         $display("\n[TEST 1] Progressive Video Passthrough");
 
-        vpu_in_interlaced = 0;
-        vpu_in_field_id = 0;
-        vpu_in_h_active = TEST_H_ACTIVE;
-        vpu_in_v_active = TEST_V_ACTIVE * 2;
+        VPU_in_interlaced = 0;
+        VPU_in_field_id = 0;
+        VPU_in_h_active = TEST_H_ACTIVE;
+        VPU_in_v_active = TEST_V_ACTIVE * 2;
 
         pixel_count = 0;
         line_count = 0;
@@ -195,10 +197,10 @@ module tb_Deinterlacer_bob();
 
         reset_dut();
 
-        vpu_in_interlaced = 1;
-        vpu_in_field_id = 0;
-        vpu_in_h_active = TEST_H_ACTIVE;
-        vpu_in_v_active = TEST_V_ACTIVE;
+        VPU_in_interlaced = 1;
+        VPU_in_field_id = 0;
+        VPU_in_h_active = TEST_H_ACTIVE;
+        VPU_in_v_active = TEST_V_ACTIVE;
 
         pixel_count = 0;
         line_count = 0;

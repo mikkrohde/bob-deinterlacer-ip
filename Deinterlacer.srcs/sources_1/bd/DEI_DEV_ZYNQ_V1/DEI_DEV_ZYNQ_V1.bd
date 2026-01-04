@@ -1205,13 +1205,13 @@
       "proc_sys_reset_0_peripheral_aresetn": {
         "ports": [
           "proc_sys_reset_0/peripheral_aresetn",
-          "VPU_test_pattern_480i_0/rst_n",
           "ps7_0_axi_periph/S00_ARESETN",
           "axi_gpio_0/s_axi_aresetn",
           "ps7_0_axi_periph/M00_ARESETN",
           "ps7_0_axi_periph/ARESETN",
           "axi_gpio_1/s_axi_aresetn",
           "ps7_0_axi_periph/M01_ARESETN",
+          "VPU_test_pattern_480i_0/rst_n",
           "Deinterlacer_bob_0/rst_n"
         ]
       },
@@ -1220,7 +1220,6 @@
           "processing_system7_0/FCLK_CLK0",
           "proc_sys_reset_0/slowest_sync_clk",
           "ila_0/clk",
-          "VPU_test_pattern_480i_0/clk",
           "processing_system7_0/M_AXI_GP0_ACLK",
           "ps7_0_axi_periph/S00_ACLK",
           "axi_gpio_0/s_axi_aclk",
@@ -1228,6 +1227,7 @@
           "ps7_0_axi_periph/ACLK",
           "axi_gpio_1/s_axi_aclk",
           "ps7_0_axi_periph/M01_ACLK",
+          "VPU_test_pattern_480i_0/clk",
           "Deinterlacer_bob_0/clk"
         ]
       },

@@ -13,6 +13,9 @@ module tb_Deinterlacer_debug();
     reg clk;
     reg rst_n;
 
+    reg [11:0] cfg_line_width;
+    reg        cfg_bypass;
+
     // VPU Input
     reg                   VPU_in_valid;
     wire                  VPU_in_ready;  // Now from DUT
@@ -23,6 +26,7 @@ module tb_Deinterlacer_debug();
     reg                   VPU_in_field_id;
     reg [11:0]            VPU_in_h_active;
     reg [11:0]            VPU_in_v_active;
+    
 
     // VPU Output
     wire                   VPU_out_valid;
@@ -46,6 +50,8 @@ module tb_Deinterlacer_debug();
     ) dut (
         .clk(clk),
         .rst_n(rst_n),
+        .cfg_line_width(cfg_line_width),
+        .cfg_bypass(cfg_bypass),
         .VPU_in_valid(VPU_in_valid),
         .VPU_in_ready(VPU_in_ready),
         .VPU_in_pixel(VPU_in_pixel),
@@ -96,7 +102,7 @@ module tb_Deinterlacer_debug();
     // Monitor internal state
     always @(posedge clk) begin
         $display("[%0t] STATE=%0d, line_addr=%0d, line_length=%0d, in_valid=%b, in_ready=%b, out_valid=%b, out_ready=%b",
-                 $time, dut.state, dut.line_addr, dut.line_length, 
+                 $time, dut.state, dut.ram_wr_addr, dut.line_length, 
                  VPU_in_valid, VPU_in_ready, VPU_out_valid, VPU_out_ready);
     end
 
@@ -107,6 +113,10 @@ module tb_Deinterlacer_debug();
 
         // Reset
         rst_n = 0;
+        
+        cfg_line_width = 12'd1920;  // Max line width
+        cfg_bypass = 1'b0;
+
         VPU_in_valid = 0;
         VPU_in_pixel = 0;
         VPU_in_line_start = 0;

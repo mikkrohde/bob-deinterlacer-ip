@@ -58,20 +58,20 @@
     <Option Name="IPUserFilesDir" Val="$PIPUSERFILESDIR"/>
     <Option Name="IPStaticSourceDir" Val="$PIPUSERFILESDIR/ipstatic"/>
     <Option Name="EnableBDX" Val="FALSE"/>
-    <Option Name="WTXSimLaunchSim" Val="29"/>
+    <Option Name="WTXSimLaunchSim" Val="110"/>
     <Option Name="WTModelSimLaunchSim" Val="0"/>
     <Option Name="WTQuestaLaunchSim" Val="0"/>
     <Option Name="WTIesLaunchSim" Val="0"/>
     <Option Name="WTVcsLaunchSim" Val="0"/>
     <Option Name="WTRivieraLaunchSim" Val="0"/>
     <Option Name="WTActivehdlLaunchSim" Val="0"/>
-    <Option Name="WTXSimExportSim" Val="0"/>
-    <Option Name="WTModelSimExportSim" Val="0"/>
-    <Option Name="WTQuestaExportSim" Val="0"/>
+    <Option Name="WTXSimExportSim" Val="1"/>
+    <Option Name="WTModelSimExportSim" Val="1"/>
+    <Option Name="WTQuestaExportSim" Val="1"/>
     <Option Name="WTIesExportSim" Val="0"/>
-    <Option Name="WTVcsExportSim" Val="0"/>
-    <Option Name="WTRivieraExportSim" Val="0"/>
-    <Option Name="WTActivehdlExportSim" Val="0"/>
+    <Option Name="WTVcsExportSim" Val="1"/>
+    <Option Name="WTRivieraExportSim" Val="1"/>
+    <Option Name="WTActivehdlExportSim" Val="1"/>
     <Option Name="GenerateIPUpgradeLog" Val="TRUE"/>
     <Option Name="XSimRadix" Val="hex"/>
     <Option Name="XSimTimeUnit" Val="ns"/>
@@ -109,6 +109,30 @@
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
+        <CompFileExtendedInfo CompFileName="DEI_DEV_ZYNQ_V1.bd" FileRelPathName="ip/DEI_DEV_ZYNQ_V1_Deinterlacer_bob_0_1/DEI_DEV_ZYNQ_V1_Deinterlacer_bob_0_1.xci">
+          <Proxy FileSetName="DEI_DEV_ZYNQ_V1_Deinterlacer_bob_0_1"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="DEI_DEV_ZYNQ_V1.bd" FileRelPathName="ip/DEI_DEV_ZYNQ_V1_VPU_test_pattern_480i_0_1/DEI_DEV_ZYNQ_V1_VPU_test_pattern_480i_0_1.xci">
+          <Proxy FileSetName="DEI_DEV_ZYNQ_V1_VPU_test_pattern_480i_0_1"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="DEI_DEV_ZYNQ_V1.bd" FileRelPathName="ip/DEI_DEV_ZYNQ_V1_axi_gpio_0_0/DEI_DEV_ZYNQ_V1_axi_gpio_0_0.xci">
+          <Proxy FileSetName="DEI_DEV_ZYNQ_V1_axi_gpio_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="DEI_DEV_ZYNQ_V1.bd" FileRelPathName="ip/DEI_DEV_ZYNQ_V1_axi_gpio_0_1/DEI_DEV_ZYNQ_V1_axi_gpio_0_1.xci">
+          <Proxy FileSetName="DEI_DEV_ZYNQ_V1_axi_gpio_0_1"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="DEI_DEV_ZYNQ_V1.bd" FileRelPathName="ip/DEI_DEV_ZYNQ_V1_ila_0_0/DEI_DEV_ZYNQ_V1_ila_0_0.xci">
+          <Proxy FileSetName="DEI_DEV_ZYNQ_V1_ila_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="DEI_DEV_ZYNQ_V1.bd" FileRelPathName="ip/DEI_DEV_ZYNQ_V1_proc_sys_reset_0_0/DEI_DEV_ZYNQ_V1_proc_sys_reset_0_0.xci">
+          <Proxy FileSetName="DEI_DEV_ZYNQ_V1_proc_sys_reset_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="DEI_DEV_ZYNQ_V1.bd" FileRelPathName="ip/DEI_DEV_ZYNQ_V1_processing_system7_0_0/DEI_DEV_ZYNQ_V1_processing_system7_0_0.xci">
+          <Proxy FileSetName="DEI_DEV_ZYNQ_V1_processing_system7_0_0"/>
+        </CompFileExtendedInfo>
+        <CompFileExtendedInfo CompFileName="DEI_DEV_ZYNQ_V1.bd" FileRelPathName="ip/DEI_DEV_ZYNQ_V1_xbar_0/DEI_DEV_ZYNQ_V1_xbar_0.xci">
+          <Proxy FileSetName="DEI_DEV_ZYNQ_V1_xbar_0"/>
+        </CompFileExtendedInfo>
       </File>
       <File Path="$PGENDIR/sources_1/bd/DEI_DEV_ZYNQ_V1/hdl/DEI_DEV_ZYNQ_V1_wrapper.v">
         <FileInfo>
@@ -133,7 +157,6 @@
       <Filter Type="Srcs"/>
       <File Path="$PSRCDIR/sim_1/new/tb_deinterlacer_bob.v">
         <FileInfo>
-          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="implementation"/>
           <Attr Name="UsedIn" Val="simulation"/>
@@ -154,9 +177,8 @@
       </File>
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
-        <Option Name="TopModule" Val="DEI_DEV_ZYNQ_V1_wrapper"/>
+        <Option Name="TopModule" Val="tb_Deinterlacer_bob"/>
         <Option Name="TopLib" Val="xil_defaultlib"/>
-        <Option Name="TopAutoSet" Val="TRUE"/>
         <Option Name="TransportPathDelay" Val="0"/>
         <Option Name="TransportIntDelay" Val="0"/>
         <Option Name="SelectedSimModel" Val="rtl"/>
@@ -166,13 +188,69 @@
         <Option Name="PamPseudoTop" Val="pseudo_tb"/>
         <Option Name="SrcSet" Val="sources_1"/>
         <Option Name="XSimWcfgFile" Val="$PPRDIR/tb_Deinterlacer_debug_behav.wcfg"/>
-        <Option Name="xsim.simulate.runtime" Val="25us"/>
+        <Option Name="xsim.simulate.runtime" Val="20us"/>
       </Config>
     </FileSet>
     <FileSet Name="utils_1" Type="Utils" RelSrcDir="$PSRCDIR/utils_1" RelGenDir="$PGENDIR/utils_1">
       <Filter Type="Utils"/>
+      <File Path="$PSRCDIR/utils_1/imports/synth_1/DEI_DEV_ZYNQ_V1_wrapper.dcp">
+        <FileInfo>
+          <Attr Name="UsedIn" Val="synthesis"/>
+          <Attr Name="UsedIn" Val="implementation"/>
+          <Attr Name="UsedInSteps" Val="synth_1"/>
+          <Attr Name="AutoDcp" Val="1"/>
+        </FileInfo>
+      </File>
       <Config>
         <Option Name="TopAutoSet" Val="TRUE"/>
+      </Config>
+    </FileSet>
+    <FileSet Name="DEI_DEV_ZYNQ_V1_processing_system7_0_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/DEI_DEV_ZYNQ_V1_processing_system7_0_0" RelGenDir="$PGENDIR/DEI_DEV_ZYNQ_V1_processing_system7_0_0">
+      <Config>
+        <Option Name="TopModule" Val="DEI_DEV_ZYNQ_V1_processing_system7_0_0"/>
+        <Option Name="UseBlackboxStub" Val="1"/>
+      </Config>
+    </FileSet>
+    <FileSet Name="DEI_DEV_ZYNQ_V1_proc_sys_reset_0_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/DEI_DEV_ZYNQ_V1_proc_sys_reset_0_0" RelGenDir="$PGENDIR/DEI_DEV_ZYNQ_V1_proc_sys_reset_0_0">
+      <Config>
+        <Option Name="TopModule" Val="DEI_DEV_ZYNQ_V1_proc_sys_reset_0_0"/>
+        <Option Name="UseBlackboxStub" Val="1"/>
+      </Config>
+    </FileSet>
+    <FileSet Name="DEI_DEV_ZYNQ_V1_VPU_test_pattern_480i_0_1" Type="BlockSrcs" RelSrcDir="$PSRCDIR/DEI_DEV_ZYNQ_V1_VPU_test_pattern_480i_0_1" RelGenDir="$PGENDIR/DEI_DEV_ZYNQ_V1_VPU_test_pattern_480i_0_1">
+      <Config>
+        <Option Name="TopModule" Val="DEI_DEV_ZYNQ_V1_VPU_test_pattern_480i_0_1"/>
+        <Option Name="UseBlackboxStub" Val="1"/>
+      </Config>
+    </FileSet>
+    <FileSet Name="DEI_DEV_ZYNQ_V1_ila_0_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/DEI_DEV_ZYNQ_V1_ila_0_0" RelGenDir="$PGENDIR/DEI_DEV_ZYNQ_V1_ila_0_0">
+      <Config>
+        <Option Name="TopModule" Val="DEI_DEV_ZYNQ_V1_ila_0_0"/>
+        <Option Name="UseBlackboxStub" Val="1"/>
+      </Config>
+    </FileSet>
+    <FileSet Name="DEI_DEV_ZYNQ_V1_xbar_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/DEI_DEV_ZYNQ_V1_xbar_0" RelGenDir="$PGENDIR/DEI_DEV_ZYNQ_V1_xbar_0">
+      <Config>
+        <Option Name="TopModule" Val="DEI_DEV_ZYNQ_V1_xbar_0"/>
+        <Option Name="UseBlackboxStub" Val="1"/>
+      </Config>
+    </FileSet>
+    <FileSet Name="DEI_DEV_ZYNQ_V1_axi_gpio_0_1" Type="BlockSrcs" RelSrcDir="$PSRCDIR/DEI_DEV_ZYNQ_V1_axi_gpio_0_1" RelGenDir="$PGENDIR/DEI_DEV_ZYNQ_V1_axi_gpio_0_1">
+      <Config>
+        <Option Name="TopModule" Val="DEI_DEV_ZYNQ_V1_axi_gpio_0_1"/>
+        <Option Name="UseBlackboxStub" Val="1"/>
+      </Config>
+    </FileSet>
+    <FileSet Name="DEI_DEV_ZYNQ_V1_axi_gpio_0_0" Type="BlockSrcs" RelSrcDir="$PSRCDIR/DEI_DEV_ZYNQ_V1_axi_gpio_0_0" RelGenDir="$PGENDIR/DEI_DEV_ZYNQ_V1_axi_gpio_0_0">
+      <Config>
+        <Option Name="TopModule" Val="DEI_DEV_ZYNQ_V1_axi_gpio_0_0"/>
+        <Option Name="UseBlackboxStub" Val="1"/>
+      </Config>
+    </FileSet>
+    <FileSet Name="DEI_DEV_ZYNQ_V1_Deinterlacer_bob_0_1" Type="BlockSrcs" RelSrcDir="$PSRCDIR/DEI_DEV_ZYNQ_V1_Deinterlacer_bob_0_1" RelGenDir="$PGENDIR/DEI_DEV_ZYNQ_V1_Deinterlacer_bob_0_1">
+      <Config>
+        <Option Name="TopModule" Val="DEI_DEV_ZYNQ_V1_Deinterlacer_bob_0_1"/>
+        <Option Name="UseBlackboxStub" Val="1"/>
       </Config>
     </FileSet>
   </FileSets>
@@ -195,22 +273,235 @@
     </Simulator>
   </Simulators>
   <Runs Version="1" Minor="22">
-    <Run Id="synth_1" Type="Ft3:Synth" SrcSet="sources_1" Part="xc7z010clg400-3" ConstrsSet="constrs_1" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="true" WriteIncrSynthDcp="false" State="current" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/synth_1" ParallelReportGen="true">
+    <Run Id="synth_1" Type="Ft3:Synth" SrcSet="sources_1" Part="xc7z010clg400-3" ConstrsSet="constrs_1" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="true" IncrementalCheckpoint="$PSRCDIR/utils_1/imports/synth_1/DEI_DEV_ZYNQ_V1_wrapper.dcp" WriteIncrSynthDcp="false" State="current" Dir="$PRUNDIR/synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/synth_1" ParallelReportGen="true">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2024">
-          <Desc>Vivado Synthesis Defaults</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2024"/>
         <Step Id="synth_design"/>
       </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
       <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2024"/>
       <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
       <RQSFiles/>
     </Run>
-    <Run Id="impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg400-3" ConstrsSet="constrs_1" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" State="current" SynthRun="synth_1" IncludeInArchive="true" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/impl_1" ParallelReportGen="true">
+    <Run Id="DEI_DEV_ZYNQ_V1_processing_system7_0_0_synth_1" Type="Ft3:Synth" SrcSet="DEI_DEV_ZYNQ_V1_processing_system7_0_0" Part="xc7z010clg400-3" ConstrsSet="DEI_DEV_ZYNQ_V1_processing_system7_0_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/DEI_DEV_ZYNQ_V1_processing_system7_0_0_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_processing_system7_0_0_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_processing_system7_0_0_synth_1" ParallelReportGen="true">
       <Strategy Version="1" Minor="2">
-        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2024">
-          <Desc>Default settings for Implementation.</Desc>
-        </StratHandle>
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2024"/>
+        <Step Id="synth_design"/>
+      </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
+      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2024"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="DEI_DEV_ZYNQ_V1_proc_sys_reset_0_0_synth_1" Type="Ft3:Synth" SrcSet="DEI_DEV_ZYNQ_V1_proc_sys_reset_0_0" Part="xc7z010clg400-3" ConstrsSet="DEI_DEV_ZYNQ_V1_proc_sys_reset_0_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/DEI_DEV_ZYNQ_V1_proc_sys_reset_0_0_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_proc_sys_reset_0_0_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_proc_sys_reset_0_0_synth_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2024"/>
+        <Step Id="synth_design"/>
+      </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
+      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2024"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="DEI_DEV_ZYNQ_V1_VPU_test_pattern_480i_0_1_synth_1" Type="Ft3:Synth" SrcSet="DEI_DEV_ZYNQ_V1_VPU_test_pattern_480i_0_1" Part="xc7z010clg400-3" ConstrsSet="DEI_DEV_ZYNQ_V1_VPU_test_pattern_480i_0_1" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/DEI_DEV_ZYNQ_V1_VPU_test_pattern_480i_0_1_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_VPU_test_pattern_480i_0_1_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_VPU_test_pattern_480i_0_1_synth_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2024"/>
+        <Step Id="synth_design"/>
+      </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
+      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2024"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="DEI_DEV_ZYNQ_V1_ila_0_0_synth_1" Type="Ft3:Synth" SrcSet="DEI_DEV_ZYNQ_V1_ila_0_0" Part="xc7z010clg400-3" ConstrsSet="DEI_DEV_ZYNQ_V1_ila_0_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/DEI_DEV_ZYNQ_V1_ila_0_0_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_ila_0_0_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_ila_0_0_synth_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2024"/>
+        <Step Id="synth_design"/>
+      </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
+      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2024"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="DEI_DEV_ZYNQ_V1_xbar_0_synth_1" Type="Ft3:Synth" SrcSet="DEI_DEV_ZYNQ_V1_xbar_0" Part="xc7z010clg400-3" ConstrsSet="DEI_DEV_ZYNQ_V1_xbar_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/DEI_DEV_ZYNQ_V1_xbar_0_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_xbar_0_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_xbar_0_synth_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2024"/>
+        <Step Id="synth_design"/>
+      </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
+      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2024"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="DEI_DEV_ZYNQ_V1_axi_gpio_0_1_synth_1" Type="Ft3:Synth" SrcSet="DEI_DEV_ZYNQ_V1_axi_gpio_0_1" Part="xc7z010clg400-3" ConstrsSet="DEI_DEV_ZYNQ_V1_axi_gpio_0_1" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/DEI_DEV_ZYNQ_V1_axi_gpio_0_1_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_axi_gpio_0_1_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_axi_gpio_0_1_synth_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2024"/>
+        <Step Id="synth_design"/>
+      </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
+      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2024"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="DEI_DEV_ZYNQ_V1_axi_gpio_0_0_synth_1" Type="Ft3:Synth" SrcSet="DEI_DEV_ZYNQ_V1_axi_gpio_0_0" Part="xc7z010clg400-3" ConstrsSet="DEI_DEV_ZYNQ_V1_axi_gpio_0_0" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/DEI_DEV_ZYNQ_V1_axi_gpio_0_0_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_axi_gpio_0_0_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_axi_gpio_0_0_synth_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2024"/>
+        <Step Id="synth_design"/>
+      </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
+      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2024"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="DEI_DEV_ZYNQ_V1_Deinterlacer_bob_0_1_synth_1" Type="Ft3:Synth" SrcSet="DEI_DEV_ZYNQ_V1_Deinterlacer_bob_0_1" Part="xc7z010clg400-3" ConstrsSet="DEI_DEV_ZYNQ_V1_Deinterlacer_bob_0_1" Description="Vivado Synthesis Defaults" AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" Dir="$PRUNDIR/DEI_DEV_ZYNQ_V1_Deinterlacer_bob_0_1_synth_1" IncludeInArchive="true" IsChild="false" AutoIncrementalDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_Deinterlacer_bob_0_1_synth_1" AutoRQSDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_Deinterlacer_bob_0_1_synth_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2024"/>
+        <Step Id="synth_design"/>
+      </Strategy>
+      <GeneratedRun Dir="$PRUNDIR" File="gen_run.xml"/>
+      <ReportStrategy Name="Vivado Synthesis Default Reports" Flow="Vivado Synthesis 2024"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg400-3" ConstrsSet="constrs_1" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" State="current" SynthRun="synth_1" IncludeInArchive="true" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/impl_1" LaunchOptions="-jobs 10 " AutoRQSDir="$PSRCDIR/utils_1/imports/impl_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2024"/>
+        <Step Id="init_design"/>
+        <Step Id="opt_design"/>
+        <Step Id="power_opt_design"/>
+        <Step Id="place_design"/>
+        <Step Id="post_place_power_opt_design"/>
+        <Step Id="phys_opt_design"/>
+        <Step Id="route_design"/>
+        <Step Id="post_route_phys_opt_design"/>
+        <Step Id="write_bitstream"/>
+      </Strategy>
+      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2024"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="DEI_DEV_ZYNQ_V1_processing_system7_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg400-3" ConstrsSet="DEI_DEV_ZYNQ_V1_processing_system7_0_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="DEI_DEV_ZYNQ_V1_processing_system7_0_0_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_processing_system7_0_0_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_processing_system7_0_0_impl_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2024"/>
+        <Step Id="init_design"/>
+        <Step Id="opt_design"/>
+        <Step Id="power_opt_design"/>
+        <Step Id="place_design"/>
+        <Step Id="post_place_power_opt_design"/>
+        <Step Id="phys_opt_design"/>
+        <Step Id="route_design"/>
+        <Step Id="post_route_phys_opt_design"/>
+        <Step Id="write_bitstream"/>
+      </Strategy>
+      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2024"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="DEI_DEV_ZYNQ_V1_proc_sys_reset_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg400-3" ConstrsSet="DEI_DEV_ZYNQ_V1_proc_sys_reset_0_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="DEI_DEV_ZYNQ_V1_proc_sys_reset_0_0_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_proc_sys_reset_0_0_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_proc_sys_reset_0_0_impl_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2024"/>
+        <Step Id="init_design"/>
+        <Step Id="opt_design"/>
+        <Step Id="power_opt_design"/>
+        <Step Id="place_design"/>
+        <Step Id="post_place_power_opt_design"/>
+        <Step Id="phys_opt_design"/>
+        <Step Id="route_design"/>
+        <Step Id="post_route_phys_opt_design"/>
+        <Step Id="write_bitstream"/>
+      </Strategy>
+      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2024"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="DEI_DEV_ZYNQ_V1_VPU_test_pattern_480i_0_1_impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg400-3" ConstrsSet="DEI_DEV_ZYNQ_V1_VPU_test_pattern_480i_0_1" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="DEI_DEV_ZYNQ_V1_VPU_test_pattern_480i_0_1_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_VPU_test_pattern_480i_0_1_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_VPU_test_pattern_480i_0_1_impl_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2024"/>
+        <Step Id="init_design"/>
+        <Step Id="opt_design"/>
+        <Step Id="power_opt_design"/>
+        <Step Id="place_design"/>
+        <Step Id="post_place_power_opt_design"/>
+        <Step Id="phys_opt_design"/>
+        <Step Id="route_design"/>
+        <Step Id="post_route_phys_opt_design"/>
+        <Step Id="write_bitstream"/>
+      </Strategy>
+      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2024"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="DEI_DEV_ZYNQ_V1_ila_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg400-3" ConstrsSet="DEI_DEV_ZYNQ_V1_ila_0_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="DEI_DEV_ZYNQ_V1_ila_0_0_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_ila_0_0_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_ila_0_0_impl_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2024"/>
+        <Step Id="init_design"/>
+        <Step Id="opt_design"/>
+        <Step Id="power_opt_design"/>
+        <Step Id="place_design"/>
+        <Step Id="post_place_power_opt_design"/>
+        <Step Id="phys_opt_design"/>
+        <Step Id="route_design"/>
+        <Step Id="post_route_phys_opt_design"/>
+        <Step Id="write_bitstream"/>
+      </Strategy>
+      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2024"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="DEI_DEV_ZYNQ_V1_xbar_0_impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg400-3" ConstrsSet="DEI_DEV_ZYNQ_V1_xbar_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="DEI_DEV_ZYNQ_V1_xbar_0_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_xbar_0_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_xbar_0_impl_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2024"/>
+        <Step Id="init_design"/>
+        <Step Id="opt_design"/>
+        <Step Id="power_opt_design"/>
+        <Step Id="place_design"/>
+        <Step Id="post_place_power_opt_design"/>
+        <Step Id="phys_opt_design"/>
+        <Step Id="route_design"/>
+        <Step Id="post_route_phys_opt_design"/>
+        <Step Id="write_bitstream"/>
+      </Strategy>
+      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2024"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="DEI_DEV_ZYNQ_V1_axi_gpio_0_1_impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg400-3" ConstrsSet="DEI_DEV_ZYNQ_V1_axi_gpio_0_1" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="DEI_DEV_ZYNQ_V1_axi_gpio_0_1_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_axi_gpio_0_1_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_axi_gpio_0_1_impl_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2024"/>
+        <Step Id="init_design"/>
+        <Step Id="opt_design"/>
+        <Step Id="power_opt_design"/>
+        <Step Id="place_design"/>
+        <Step Id="post_place_power_opt_design"/>
+        <Step Id="phys_opt_design"/>
+        <Step Id="route_design"/>
+        <Step Id="post_route_phys_opt_design"/>
+        <Step Id="write_bitstream"/>
+      </Strategy>
+      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2024"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="DEI_DEV_ZYNQ_V1_axi_gpio_0_0_impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg400-3" ConstrsSet="DEI_DEV_ZYNQ_V1_axi_gpio_0_0" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="DEI_DEV_ZYNQ_V1_axi_gpio_0_0_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_axi_gpio_0_0_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_axi_gpio_0_0_impl_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2024"/>
+        <Step Id="init_design"/>
+        <Step Id="opt_design"/>
+        <Step Id="power_opt_design"/>
+        <Step Id="place_design"/>
+        <Step Id="post_place_power_opt_design"/>
+        <Step Id="phys_opt_design"/>
+        <Step Id="route_design"/>
+        <Step Id="post_route_phys_opt_design"/>
+        <Step Id="write_bitstream"/>
+      </Strategy>
+      <ReportStrategy Name="Vivado Implementation Default Reports" Flow="Vivado Implementation 2024"/>
+      <Report Name="ROUTE_DESIGN.REPORT_METHODOLOGY" Enabled="1"/>
+      <RQSFiles/>
+    </Run>
+    <Run Id="DEI_DEV_ZYNQ_V1_Deinterlacer_bob_0_1_impl_1" Type="Ft2:EntireDesign" Part="xc7z010clg400-3" ConstrsSet="DEI_DEV_ZYNQ_V1_Deinterlacer_bob_0_1" Description="Default settings for Implementation." AutoIncrementalCheckpoint="false" WriteIncrSynthDcp="false" SynthRun="DEI_DEV_ZYNQ_V1_Deinterlacer_bob_0_1_synth_1" IncludeInArchive="false" IsChild="false" GenFullBitstream="true" AutoIncrementalDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_Deinterlacer_bob_0_1_impl_1" AutoRQSDir="$PSRCDIR/utils_1/imports/DEI_DEV_ZYNQ_V1_Deinterlacer_bob_0_1_impl_1" ParallelReportGen="true">
+      <Strategy Version="1" Minor="2">
+        <StratHandle Name="Vivado Implementation Defaults" Flow="Vivado Implementation 2024"/>
         <Step Id="init_design"/>
         <Step Id="opt_design"/>
         <Step Id="power_opt_design"/>

@@ -34,14 +34,22 @@ module Deinterlacer_bob #(
 );
 
     // Line buffer
+    //(* ram_style = "block" *)
     reg [PIXEL_WIDTH-1:0] line_ram [0:MAX_WIDTH-1];
-    reg [$clog2(MAX_WIDTH)-1:0] line_addr;
+    
+    // RAM read/write signals
+    reg [$clog2(MAX_WIDTH)-1:0]  ram_wr_addr;
+    reg [PIXEL_WIDTH-1:0]        ram_wr_data;
+    reg                          ram_wr_en;
+    reg [$clog2(MAX_WIDTH)-1:0]  ram_rd_addr;
+    reg [PIXEL_WIDTH-1:0]        ram_rd_data;
+
     reg [$clog2(MAX_WIDTH)-1:0] line_length;  // Store length during first pass
 
     // State machine
-    localparam IDLE         = 2'b00;
-    localparam FIRST_PASS   = 2'b01;  // Store to buffer AND output
-    localparam SECOND_PASS  = 2'b10;  // Replay from buffer
+    localparam IDLE         = 3'b00;
+    localparam FIRST_PASS   = 3'b01;  // Store to buffer AND output
+    localparam SECOND_PASS  = 3'b10;  // Replay from buffer
 
     reg [1:0] state;
     
@@ -55,6 +63,16 @@ module Deinterlacer_bob #(
     wire handshake_out = VPU_out_valid && VPU_out_ready;
     wire passthrough = cfg_bypass || !VPU_in_interlaced;
     wire frame_start = VPU_in_frame_start && !VPU_in_field_id;
+    
+    always @(posedge clk) begin
+        // Synchronous write
+        if (ram_wr_en) begin
+            line_ram[ram_wr_addr] <= ram_wr_data;
+        end
+        
+        // Synchronous read (data available NEXT cycle)
+        ram_rd_data <= line_ram[ram_rd_addr];
+    end
 
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
@@ -67,7 +85,10 @@ module Deinterlacer_bob #(
             VPU_out_field_id    <= 1'b0;
             VPU_out_h_active    <= 0;
             VPU_out_v_active    <= 0;
-            line_addr           <= 0;
+            ram_rd_addr         <= 0;
+            ram_wr_addr         <= 0;
+            ram_wr_data         <= 0;
+            ram_wr_en           <= 1'b0;
             line_length         <= 0;
             latched_frame_start <= 1'b0;
             latched_line_start  <= 1'b0;
@@ -86,7 +107,8 @@ module Deinterlacer_bob #(
                     VPU_out_v_active    <= VPU_in_v_active;
                 end
                 state     <= IDLE;
-                line_addr <= 0;
+                ram_rd_addr <= 0;
+                ram_wr_addr <= 0;
             end else begin
                 // Interlaced mode - bob deinterlacing
                 VPU_out_interlaced <= 1'b0;
@@ -96,18 +118,21 @@ module Deinterlacer_bob #(
 
                 case (state)
                     IDLE: begin
-                        VPU_out_valid <= 1'b0;
-                        line_addr <= 0;
-                        
+                        ram_rd_addr     <= 0;
+                        ram_wr_addr     <= 0;
+
                         // Wait for line_start to begin
                         if (VPU_in_valid && VPU_in_line_start) begin
                             state <= FIRST_PASS;
                             latched_frame_start <= frame_start;
                             latched_line_start  <= 1'b1;
                             
-                            line_ram[0] <= VPU_in_pixel;
+                            ram_wr_en   <= 1'b1;
+                            ram_wr_addr <= 0;
+                            ram_wr_data <= VPU_in_pixel;
                             latched_pixel <= VPU_in_pixel;
-                            line_addr <= 1;
+                        end else begin
+                            ram_wr_en   <= 1'b0;
                         end
                     end
 
@@ -120,21 +145,25 @@ module Deinterlacer_bob #(
                                 VPU_out_frame_start <= latched_frame_start;
                                 latched_line_start  <= 1'b0;
                                 latched_frame_start <= 1'b0;
+                            end else
+                            if (!VPU_in_valid && ram_wr_addr > 0) begin
+                                VPU_out_valid      <= 1'b0;
+                                line_length        <= ram_wr_addr;
+                                ram_rd_addr        <= 0;
+                                ram_wr_addr        <= 0;
+                                latched_line_start <= 1'b0; // Signal to output line_start on first pixel
+                                state              <= SECOND_PASS;
 
-                            end else if (!VPU_in_valid && line_addr > 0) begin
-                                // Input stopped - line complete, switch to replay
-                                VPU_out_valid <= 1'b0;
-                                line_length   <= line_addr;
-                                line_addr     <= 0;
-                                state         <= SECOND_PASS;
-
-                            end else if (handshake_in) begin
+                            end else if (VPU_in_valid) begin
                                 // Store pixel to buffer AND output it
-                                if (line_addr < cfg_line_width) begin
-                                    line_ram[line_addr] <= VPU_in_pixel;
-                                    line_addr           <= line_addr + 1;
+                                if (ram_wr_addr < cfg_line_width) begin
+                                    ram_wr_en   <= 1'b1;
+                                    ram_wr_data <= VPU_in_pixel;
+                                    ram_wr_addr <= ram_wr_addr + 1;
+                                end else begin
+                                    ram_wr_en   <= 1'b0;
                                 end
-                                
+
                                 VPU_out_valid       <= 1'b1;
                                 VPU_out_pixel       <= VPU_in_pixel;
                                 VPU_out_line_start  <= latched_line_start;
@@ -144,22 +173,23 @@ module Deinterlacer_bob #(
                                 latched_frame_start <= 1'b0;
                             end else begin
                                 VPU_out_valid <= 1'b0;
+                                ram_wr_en     <= 1'b0;
                             end
                         end
                     end
 
                     SECOND_PASS: begin
                         if (!VPU_out_valid || handshake_out) begin
-                            if (line_addr < line_length) begin
+                            if (ram_rd_addr < line_length) begin
                                 VPU_out_valid       <= 1'b1;
-                                VPU_out_pixel       <= line_ram[line_addr];
-                                VPU_out_line_start  <= (line_addr == 0);
+                                VPU_out_pixel       <= ram_rd_data;
+                                VPU_out_line_start  <= (ram_rd_addr == 0);
                                 VPU_out_frame_start <= 1'b0;
-                                line_addr           <= line_addr + 1;
+                                ram_rd_addr         <= ram_rd_addr + 1;
                             end else begin
                                 // Replay complete
                                 VPU_out_valid <= 1'b0;
-                                line_addr     <= 0;
+                                ram_rd_addr   <= 0;
                                 state         <= IDLE;
                             end
                         end
@@ -171,6 +201,5 @@ module Deinterlacer_bob #(
     end
 
     // Ready signal logic
-    assign VPU_in_ready = passthrough ? (!VPU_out_valid || handshake_out) : (state == FIRST_PASS) && (!VPU_out_valid || handshake_out) && !latched_line_start;                            ;
-
+    assign VPU_in_ready = passthrough ? (!VPU_out_valid || handshake_out) : (state == FIRST_PASS) && (!VPU_out_valid || handshake_out) && !latched_line_start;
 endmodule
