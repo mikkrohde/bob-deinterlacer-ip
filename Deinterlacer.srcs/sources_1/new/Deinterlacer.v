@@ -7,8 +7,8 @@ module Deinterlacer_bob #(
     input  wire                     clk,
     input  wire                     rst_n,
 
-    input  wire [11:0]              cfg_line_width,  // Runtime configurable buffer depth
-    input  wire                     cfg_bypass,
+    input  wire [11:0]              VPU_cfg_line_width,  // Runtime configurable buffer depth
+    input  wire                     VPU_cfg_bypass,
 
     // VPU Input Stream
     input  wire                     VPU_in_valid,
@@ -61,7 +61,7 @@ module Deinterlacer_bob #(
     // Handshake signals
     wire handshake_in  = VPU_in_valid && VPU_in_ready;
     wire handshake_out = VPU_out_valid && VPU_out_ready;
-    wire passthrough = cfg_bypass || !VPU_in_interlaced;
+    wire passthrough = VPU_cfg_bypass || !VPU_in_interlaced;
     wire frame_start = VPU_in_frame_start && !VPU_in_field_id;
     
     always @(posedge clk) begin
@@ -156,7 +156,7 @@ module Deinterlacer_bob #(
 
                             end else if (VPU_in_valid) begin
                                 // Store pixel to buffer AND output it
-                                if (ram_wr_addr < cfg_line_width) begin
+                                if (ram_wr_addr < VPU_cfg_line_width) begin
                                     ram_wr_en   <= 1'b1;
                                     ram_wr_data <= VPU_in_pixel;
                                     ram_wr_addr <= ram_wr_addr + 1;

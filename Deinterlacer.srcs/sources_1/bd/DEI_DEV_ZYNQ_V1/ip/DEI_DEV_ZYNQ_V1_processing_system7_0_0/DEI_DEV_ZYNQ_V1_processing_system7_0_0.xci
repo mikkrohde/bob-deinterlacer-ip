@@ -4,7 +4,7 @@
     "xci_name": "DEI_DEV_ZYNQ_V1_processing_system7_0_0",
     "cell_name": "processing_system7_0",
     "component_reference": "xilinx.com:ip:processing_system7:5.5",
-    "ip_revision": "6",
+    "ip_revision": "8",
     "gen_directory": "../../../../../../Deinterlacer.gen/sources_1/bd/DEI_DEV_ZYNQ_V1/ip/DEI_DEV_ZYNQ_V1_processing_system7_0_0",
     "parameters": {
       "component_parameters": {
@@ -838,9 +838,9 @@
         "PCW_MIO_TREE_SIGNALS": [ { "value": "unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned#unassigned", "resolve_type": "user", "usage": "all" } ],
         "PCW_PS7_SI_REV": [ { "value": "PRODUCTION", "resolve_type": "user", "usage": "all" } ],
         "PCW_FPGA_FCLK0_ENABLE": [ { "value": "1", "value_src": "user", "resolve_type": "user", "usage": "all" } ],
-        "PCW_FPGA_FCLK1_ENABLE": [ { "value": "0", "value_src": "user", "resolve_type": "user", "enabled": false, "usage": "all" } ],
-        "PCW_FPGA_FCLK2_ENABLE": [ { "value": "0", "value_src": "user", "resolve_type": "user", "enabled": false, "usage": "all" } ],
-        "PCW_FPGA_FCLK3_ENABLE": [ { "value": "0", "value_src": "user", "resolve_type": "user", "enabled": false, "usage": "all" } ],
+        "PCW_FPGA_FCLK1_ENABLE": [ { "value": "0", "resolve_type": "user", "enabled": false, "usage": "all" } ],
+        "PCW_FPGA_FCLK2_ENABLE": [ { "value": "0", "resolve_type": "user", "enabled": false, "usage": "all" } ],
+        "PCW_FPGA_FCLK3_ENABLE": [ { "value": "0", "resolve_type": "user", "enabled": false, "usage": "all" } ],
         "PCW_NOR_SRAM_CS0_T_TR": [ { "value": "1", "resolve_type": "user", "usage": "all" } ],
         "PCW_NOR_SRAM_CS0_T_PC": [ { "value": "1", "resolve_type": "user", "usage": "all" } ],
         "PCW_NOR_SRAM_CS0_T_WP": [ { "value": "1", "resolve_type": "user", "usage": "all" } ],
@@ -946,27 +946,27 @@
         "C_GP1_EN_MODIFIABLE_TXN": [ { "value": "1", "resolve_type": "dependent", "format": "long", "usage": "all" } ]
       },
       "project_parameters": {
-        "ARCHITECTURE": [ { "value": "zynq" } ],
-        "BASE_BOARD_PART": [ { "value": "" } ],
-        "BOARD_CONNECTIONS": [ { "value": "" } ],
-        "DEVICE": [ { "value": "xc7z010" } ],
-        "NEXTGEN_VERSAL": [ { "value": "0" } ],
-        "PACKAGE": [ { "value": "clg400" } ],
-        "PREFHDL": [ { "value": "VERILOG" } ],
-        "SILICON_REVISION": [ { "value": "" } ],
-        "SIMULATOR_LANGUAGE": [ { "value": "MIXED" } ],
-        "SPEEDGRADE": [ { "value": "-3" } ],
-        "STATIC_POWER": [ { "value": "" } ],
-        "TEMPERATURE_GRADE": [ { "value": "" } ]
+        "ARCHITECTURE": [ { "value": "zynq", "resolve_type": "generated", "usage": "all" } ],
+        "BASE_BOARD_PART": [ { "value": "", "resolve_type": "generated", "usage": "all" } ],
+        "BOARD_CONNECTIONS": [ { "value": "", "resolve_type": "generated", "usage": "all" } ],
+        "DEVICE": [ { "value": "xc7z010", "resolve_type": "generated", "usage": "all" } ],
+        "NEXTGEN_VERSAL": [ { "value": "0", "resolve_type": "generated", "usage": "all" } ],
+        "PACKAGE": [ { "value": "clg400", "resolve_type": "generated", "usage": "all" } ],
+        "PREFHDL": [ { "value": "VERILOG", "resolve_type": "generated", "usage": "all" } ],
+        "SILICON_REVISION": [ { "value": "", "resolve_type": "generated", "usage": "all" } ],
+        "SIMULATOR_LANGUAGE": [ { "value": "MIXED", "resolve_type": "generated", "usage": "all" } ],
+        "SPEEDGRADE": [ { "value": "-3", "resolve_type": "generated", "usage": "all" } ],
+        "STATIC_POWER": [ { "value": "", "resolve_type": "generated", "usage": "all" } ],
+        "TEMPERATURE_GRADE": [ { "value": "", "resolve_type": "generated", "usage": "all" } ]
       },
       "runtime_parameters": {
         "IPCONTEXT": [ { "value": "IP_Integrator" } ],
-        "IPREVISION": [ { "value": "6" } ],
+        "IPREVISION": [ { "value": "8" } ],
         "MANAGED": [ { "value": "TRUE" } ],
         "OUTPUTDIR": [ { "value": "../../../../../../Deinterlacer.gen/sources_1/bd/DEI_DEV_ZYNQ_V1/ip/DEI_DEV_ZYNQ_V1_processing_system7_0_0" } ],
         "SELECTEDSIMMODEL": [ { "value": "" } ],
         "SHAREDDIR": [ { "value": "../../ipshared" } ],
-        "SWVERSION": [ { "value": "2024.1" } ],
+        "SWVERSION": [ { "value": "2025.2" } ],
         "SYNTHESISFLOW": [ { "value": "OUT_OF_CONTEXT" } ]
       }
     },
@@ -1259,5 +1259,6 @@
         }
       }
     }
-  }
+  },
+  "checksum": "9a46094c"
 }
