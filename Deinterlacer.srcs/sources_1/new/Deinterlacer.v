@@ -34,7 +34,7 @@ module Deinterlacer_bob #(
 );
 
     // Line buffer
-    //(* ram_style = "block" *)
+    (* ram_style = "block" *)
     reg [PIXEL_WIDTH-1:0] line_ram [0:MAX_WIDTH-1];
     
     // RAM read/write signals
@@ -101,8 +101,8 @@ module Deinterlacer_bob #(
                     VPU_out_pixel       <= VPU_in_pixel;
                     VPU_out_line_start  <= VPU_in_line_start;
                     VPU_out_frame_start <= VPU_in_frame_start;
-                    VPU_out_interlaced  <= cfg_bypass ? VPU_in_interlaced : 1'b0;
-                    VPU_out_field_id    <= cfg_bypass ? VPU_in_field_id : 1'b0;
+                    VPU_out_interlaced  <= VPU_cfg_bypass ? VPU_in_interlaced : 1'b0;
+                    VPU_out_field_id    <= VPU_cfg_bypass ? VPU_in_field_id : 1'b0;
                     VPU_out_h_active    <= VPU_in_h_active;
                     VPU_out_v_active    <= VPU_in_v_active;
                 end
